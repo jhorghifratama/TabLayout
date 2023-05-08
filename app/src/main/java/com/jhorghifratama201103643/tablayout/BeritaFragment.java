@@ -1,5 +1,6 @@
 package com.jhorghifratama201103643.tablayout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,10 +62,26 @@ public class BeritaFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_berita, container, false);
+
+        _webView = (WebView) view.findViewById(R.id.beritaWebView);
+        _webView.loadUrl("https://www.detik.com");
+
+        WebSettings settings = _webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+
+        WebViewClient webViewClient = new WebViewClient();
+        _webView.setWebViewClient(webViewClient);
+
+        WebChromeClient webChromeClient = new WebChromeClient();
+        _webView.setWebChromeClient(webChromeClient);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_berita, container, false);
+        return view;
+
     }
 }
